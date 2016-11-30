@@ -37,7 +37,7 @@ public class Main {
 			/* If a machine performs the same transformation of another
 			 * it is added only if it is cheaper than the current one */
 			if (cost < matrix.getElement(row, col).getCost() ) {
-				matrix.setElement(row, col, new machineTuple(items [0], cost));
+				matrix.setElement(row, col, new MachineTuple(items [0], cost));
 			}
 		}
 		return matrix;
