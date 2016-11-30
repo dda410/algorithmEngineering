@@ -1,5 +1,10 @@
 package challenge;
 
+/* The machine tuple is composed by a label, representing the machine
+ * name and by an integer, representing the transformation cost from 
+ * one compound to another. In the directed graph where the compounds
+ * are the nodes the machine tuples represents the directed edges between 
+ * them. */
 public class machineTuple {
 	
 	private String name;
