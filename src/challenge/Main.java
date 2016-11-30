@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
 public class Main {
 	
 	public static void printArrayList(ArrayList<String []> a) {	//debugging method
@@ -32,9 +31,11 @@ public class Main {
 	public static AdjacencyMatrix buildAdjacencyMatrix(ArrayList<String []> input, int numberOfCompounds) {
 		AdjacencyMatrix matrix = new AdjacencyMatrix(numberOfCompounds + 1);
 		for (String [] items : input) { 
-			int row = Character.getNumericValue(items [1].charAt(1));
-			int col = Character.getNumericValue(items [2].charAt(1));
+			int row = Integer.parseInt(items [1].substring(1));
+			int col = Integer.parseInt(items [2].substring(1));
 			int cost = Integer.parseInt(items [3]);
+			/* If a machine performs the same transformation of another
+			 * it is added only if it is cheaper than the current one */
 			if (cost < matrix.getElement(row, col).getCost() ) {
 				matrix.setElement(row, col, new machineTuple(items [0], cost));
 			}
@@ -46,6 +47,7 @@ public class Main {
 		parseArguments(args);
 		Scanner in = null;
 		ArrayList<String []> inputLines = new ArrayList<String []>();
+		// the total number of compounds is needed in order to build the adjacency matrix
 		int numberOfCompounds = 0;
 		try {
 			in = new Scanner(new File(args[0]));
@@ -54,11 +56,13 @@ public class Main {
 		}
 		while (in.hasNextLine()) {
 			Scanner line = new Scanner(in.nextLine());
+			// items store the 4 elements composing an input line
 			String [] items = new String [4];
 			for (int i = 0; i < 4; i++) {
 				items [i] = line.next();
 			}
-			numberOfCompounds = getNumberOfCompounds(Character.getNumericValue(items [1].charAt(1)), Character.getNumericValue(items [2].charAt(1)), numberOfCompounds);
+			numberOfCompounds = getNumberOfCompounds(Integer.parseInt(items [1].substring(1)), Integer.parseInt(items [2].substring(1)), numberOfCompounds);
+			// the arrayList input lines is an ordered collection of parsed items that compose the input lines
 			inputLines.add(items);
 		}
 		AdjacencyMatrix matrix = buildAdjacencyMatrix(inputLines, numberOfCompounds);
