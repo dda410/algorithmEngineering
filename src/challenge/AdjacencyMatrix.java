@@ -1,14 +1,12 @@
 package challenge;
 
-import javax.print.attribute.standard.NumberOfDocuments;
-
+/* The adjacency matrix represents the directed graph having as nodes the compounds
+ * and as edges the machines that transform one compound to the other. The direction of the 
+ * edges represents the transformation from one compound to the other.*/
 public class AdjacencyMatrix {
 	
 	private machineTuple [] [] matrix;
-	
-	/* The adjacency matrix represents the directed graph having as nodes the compounds
-	 * and as edges the machines that transform one compound to the other. The direction of the 
-	 * edges represents the transformation from one compound to the other.*/
+
 	public AdjacencyMatrix(int numberOfCompounds) {
 		matrix = new machineTuple [numberOfCompounds] [numberOfCompounds];
 		// the matrix is initialized with the highest possible value as machine cost
@@ -28,13 +26,19 @@ public class AdjacencyMatrix {
 	}
 	
 	public void printMatrix() {  // debugging method
-		System.out.print("        C0");
+		System.out.print("        C0 ");
 		for (int i = 1; i < matrix.length; i++) {
-			System.out.print("              C" + i);
+			System.out.print("             C" + i);
+			if (i < 10) {
+				System.out.print(" ");
+			}
 		}
 		System.out.print("\n\n");
 		for (int i = 0; i < matrix.length; i++) {
-			System.out.print("C" + i + "      ");
+			System.out.print("C" + i + "     ");
+			if (i < 10) {
+				System.out.print(" ");
+			}
 			for (int j = 0; j < matrix.length; j++) {
 				machineTuple m = this.getElement(i, j);
 				if (m.getName() == null) {
@@ -43,12 +47,15 @@ public class AdjacencyMatrix {
 					System.out.print(m.getName() + ":" + m.getCost() + " ");
 				}
 				if (m.getName()!=null) {
-					System.out.print("       ");
-					if (j < matrix.length -1 && this.getElement(i, j+1).getName()==null) {
+					System.out.print("      ");
+					if (j < matrix.length -1 && this.getElement(i, j+1).getName() == null) {
 						System.out.print("");
 					}
 				}
 				if (m.getName() != null && (Integer.parseInt( m.getName().substring(1) ) ) < 10) {
+					System.out.print(" ");
+				}
+				if (m.getName() != null && (Integer.parseInt( m.getName().substring(1) ) ) < 100) {
 					System.out.print(" ");
 				}
 			}
