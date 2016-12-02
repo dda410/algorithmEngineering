@@ -12,7 +12,7 @@ public class AdjacencyMatrix {
 		// the matrix is initialized with the highest possible value as machine cost
 		for (int i = 0; i < numberOfCompounds; i++) {
 			for (int j = 0; j < numberOfCompounds; j++) {
-				matrix [i] [j] = new MachineTuple(null , Integer.MAX_VALUE); 
+				matrix [i] [j] = new MachineTuple(); 
 			}
 		}
 	}
@@ -25,6 +25,29 @@ public class AdjacencyMatrix {
 		matrix [row] [col] = tuple;
 	}
 	
+	public MachineTuple [] [] getMatrix() {
+		return matrix;
+	}
+	
+	public void orderMatrix() {
+		for (int i = 0; i < matrix.length; i++) {
+			int j;
+			boolean flag = true;
+			MachineTuple temp;
+			while (flag) {
+				flag= false;
+				for( j=0;  j < matrix.length -1;  j++ ) {
+					if (matrix [i][j].getCost() > matrix[i][j+1].getCost()) {
+						temp = matrix [i][j];                //swap elements
+						matrix [i][j] = matrix[i][j+1];
+						matrix[i][j+1] = temp;
+						flag = true;  
+					} 
+				} 
+			} 
+		} 
+	}
+
 	public void printMatrix() {  // debugging method
 		System.out.print("        C0 ");
 		for (int i = 1; i < matrix.length; i++) {
