@@ -4,7 +4,7 @@ package challenge;
  * and as edges the machines that transform one compound to the other. The direction of the 
  * edges represents the transformation from one compound to the other.*/
 public class AdjacencyMatrix {
-	
+
 	private MachineTuple [] [] matrix;
 
 	public AdjacencyMatrix(int numberOfCompounds) {
@@ -16,20 +16,20 @@ public class AdjacencyMatrix {
 			}
 		}
 	}
-	
+
 	public MachineTuple getElement(int row, int col) {
 		return matrix [row] [col];
 	}
-	
+
 	public void setElement(int row, int col, MachineTuple tuple) {
 		matrix [row] [col] = tuple;
 	}
-	
+
 	public MachineTuple [] [] getMatrix() {
 		return matrix;
 	}
-	
-	public void orderMatrix() {
+
+	public void orderMatrix() { // BubbleSort is used to order the matrix elements.
 		for (int i = 0; i < matrix.length; i++) {
 			int j;
 			boolean flag = true;
@@ -38,7 +38,7 @@ public class AdjacencyMatrix {
 				flag= false;
 				for( j=0;  j < matrix.length -1;  j++ ) {
 					if (matrix [i][j].getCost() > matrix[i][j+1].getCost()) {
-						temp = matrix [i][j];                //swap elements
+						temp = matrix [i][j];
 						matrix [i][j] = matrix[i][j+1];
 						matrix[i][j+1] = temp;
 						flag = true;  
