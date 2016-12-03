@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Main {
 
@@ -45,16 +47,14 @@ public class Main {
 	}
 
 	/* Recursive function acting greedy to calculate all the possible Hamiltonian circuits and finding the cheapest once. */
-	public static ArrayList<MachineTuple> getCheapestMachines2(AdjacencyMatrix matrix, ArrayList<MachineTuple> cheapestMachines, 
+	public static ArrayList<MachineTuple> getCheapestMachines(AdjacencyMatrix matrix, ArrayList<MachineTuple> cheapestMachines, 
 			int numberOfCompounds, int row, int startingRow, int recursionDepth, ArrayList<Integer> visitedRows) {
 		// Exit condition: an Hamiltonian circuit has been found.
 		if (recursionDepth == numberOfCompounds) {
 			for (int i = 0; i < numberOfCompounds; i++) {
-				System.out.println("This is row: "+row+"\nThis is numberOfCompounds: "+numberOfCompounds+"\nThis recursion depth: "+recursionDepth);
 				if (matrix.getElement(row, i).getCol() == startingRow && matrix.getElement(row, i).getName() != null) {
 					cheapestMachines.add(matrix.getElement(row, i));
-					System.out.println("This is element: "+matrix.getElement(row, i).getName());
-					System.out.println("This is cheapest machines.size(): "+cheapestMachines.size());
+					System.out.println("This is the last machine added to close the circuit: " + matrix.getElement(row, i).getName());
 					return cheapestMachines;
 				}
 			}
@@ -68,19 +68,19 @@ public class Main {
 				return cheapestMachines;
 			}
 			if (! visitedRows.contains(element.getCol())) {
-				System.out.println("This is element: "+element.getName());
 				visitedRows.add(row);
 				cheapestMachines.add(element);
-				cheapestMachines = getCheapestMachines2(matrix, cheapestMachines, numberOfCompounds, element.getCol(), startingRow, ++recursionDepth, visitedRows);
-				System.out.println("This is cheapest machine size in recursion unwind: "+ cheapestMachines.size());
+				System.out.println("This is the machine added: "+ element.getName());
+				cheapestMachines = getCheapestMachines(matrix, cheapestMachines, numberOfCompounds, element.getCol(), startingRow, ++recursionDepth, visitedRows);
 				if (cheapestMachines.size() == (numberOfCompounds + 1) ) {
-					System.out.println("cheapestMachines.size() == (numberOfCompounds + 1) LAST CALL");
 					break;
 				}
+				System.out.println("This is the machine removed: " + element.getName());
+				visitedRows.remove(visitedRows.size() - 1);
+				cheapestMachines.remove(cheapestMachines.size() - 1);
 				--recursionDepth;
 			}			
 		}
-		System.out.println("last return");
 		return cheapestMachines;
 	}
 
@@ -90,13 +90,29 @@ public class Main {
 		ArrayList<MachineTuple> cheapestMachines = new ArrayList<MachineTuple> ();
 		ArrayList<Integer> visitedNodes = new ArrayList<Integer> ();
 		for (int i = 0; i < numberOfCompounds + 1; i++) {
-			cheapestMachines = getCheapestMachines2(matrix, cheapestMachines, numberOfCompounds, i, i, 0, visitedNodes);
-			System.out.println("This is cheapestMachines size: " + cheapestMachines.size());
+			cheapestMachines = getCheapestMachines(matrix, cheapestMachines, numberOfCompounds, i, i, 0, visitedNodes);
 			if (cheapestMachines.size() == numberOfCompounds + 1) {
 				break;
 			}
 		}
 		return cheapestMachines;
+	}
+	
+	public static void printResult(ArrayList<MachineTuple> result) {
+		MachineTuple element;
+		int totalPrice = 0;
+		ArrayList<Integer> machineNumbers = new ArrayList<Integer> ();
+		// The total cost of the machines is calculated plus the machines numbers are extracted.
+		for (int i = 0; i < result.size(); i++) {
+			element = result.get(i);
+			totalPrice += element.getCost();
+			machineNumbers.add(Integer.parseInt(element.getName().substring(1)));
+		}
+		System.out.println(totalPrice);
+		Collections.sort(machineNumbers);
+		for (int number : machineNumbers) {
+			System.out.print(number + " ");
+		}
 	}
 
 	public static void main(String[] args) {
@@ -121,14 +137,15 @@ public class Main {
 			// The ordered collections of the parsed input is stored in the inputLines variable.
 			inputLines.add(items);
 		}
-		System.out.println("This is numberOfCompounds "+numberOfCompounds);
 		AdjacencyMatrix matrix = buildAdjacencyMatrix(inputLines, numberOfCompounds);
-		matrix.printMatrix();
+		matrix.printMatrix(); // to remove
 		matrix.orderMatrix();
-		matrix.printMatrix();
+		matrix.printMatrix(); // to remove
 		ArrayList<MachineTuple> result = getCheapestMachines(numberOfCompounds, matrix);
-		for (int i = 0; i < numberOfCompounds + 1; i++) {
-			System.out.println(result.get(i).getName()+":"+result.get(i).getCost());
+		if (result.size() < numberOfCompounds + 1) {
+			System.out.println("No Hamiltonian circuit exist hence there is no possible result.");
+			System.exit(1);
 		}
+		printResult(result);
 	}
 }
