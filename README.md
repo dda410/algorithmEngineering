@@ -8,3 +8,7 @@
 ## Script instructions:
 1. cd to src/ folder
 2. run `../percentageFromCorrectness.sh "challenge/Main" "path/to/input/file"`
+
+## One line script instructions:
+1. cd to src/ folder
+2. run `source parseAllinputs`
