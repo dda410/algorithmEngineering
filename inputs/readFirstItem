@@ -1,1 +1,0 @@
-while read -r line; do echo "$line" | awk '{print $1}' ; done < $"20_8.IN"
