@@ -1,0 +1,1 @@
+ls ../inputs/*.IN | while read -r file; do echo "$file" | cut -c 11- >> ../outputAlgorithmCorrectness; ../percentageFromCorrectness.sh challenge/Main "$file" >> ../outputAlgorithmCorrectness; echo "" >> ../outputAlgorithmCorrectness; done
