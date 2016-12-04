@@ -113,6 +113,7 @@ public class Main {
 		for (int number : machineNumbers) {
 			System.out.print(number + " ");
 		}
+		System.out.println();
 	}
 
 	public static void main(String[] args) {
