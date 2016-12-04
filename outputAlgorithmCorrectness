@@ -1,0 +1,56 @@
+06_0.IN
+This is the expected correct output: 
+15083
+this is the obtained output: 
+15083
+The solution found by the program is 0% more expensive than the correct one
+
+06_8.IN
+This is the expected correct output: 
+14358
+this is the obtained output: 
+14358
+The solution found by the program is 0% more expensive than the correct one
+
+08_0.IN
+This is the expected correct output: 
+20254
+this is the obtained output: 
+20254
+The solution found by the program is 0% more expensive than the correct one
+
+08_3.IN
+This is the expected correct output: 
+19033
+this is the obtained output: 
+21120
+The solution found by the program is 10.96516576472442599695% more expensive than the correct one
+
+12_3.IN
+This is the expected correct output: 
+27458
+this is the obtained output: 
+28544
+The solution found by the program is 3.95513147352319906766% more expensive than the correct one
+
+16_0.IN
+This is the expected correct output: 
+37782
+this is the obtained output: 
+37782
+The solution found by the program is 0% more expensive than the correct one
+
+20_0.IN
+This is the expected correct output: 
+49443
+this is the obtained output: 
+49443
+The solution found by the program is 0% more expensive than the correct one
+
+20_8.IN
+This is the expected correct output: 
+41989
+this is the obtained output: 
+44831
+The solution found by the program is 6.76843935316392388482% more expensive than the correct one
+
