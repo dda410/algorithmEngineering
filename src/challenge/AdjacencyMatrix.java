@@ -5,27 +5,27 @@ package challenge;
  * edges represents the transformation from one compound to the other.*/
 public class AdjacencyMatrix {
 
-	private MachineTuple [] [] matrix;
+	private MachineObject [] [] matrix;
 
 	public AdjacencyMatrix(int numberOfCompounds) {
-		matrix = new MachineTuple [numberOfCompounds] [numberOfCompounds];
+		matrix = new MachineObject [numberOfCompounds] [numberOfCompounds];
 		// the matrix is initialized with the highest possible value as machine cost
 		for (int i = 0; i < numberOfCompounds; i++) {
 			for (int j = 0; j < numberOfCompounds; j++) {
-				matrix [i] [j] = new MachineTuple(); 
+				matrix [i] [j] = new MachineObject(); 
 			}
 		}
 	}
 
-	public MachineTuple getElement(int row, int col) {
+	public MachineObject getElement(int row, int col) {
 		return matrix [row] [col];
 	}
 
-	public void setElement(int row, int col, MachineTuple tuple) {
+	public void setElement(int row, int col, MachineObject tuple) {
 		matrix [row] [col] = tuple;
 	}
 
-	public MachineTuple [] [] getMatrix() {
+	public MachineObject [] [] getMatrix() {
 		return matrix;
 	}
 
@@ -33,7 +33,7 @@ public class AdjacencyMatrix {
 		for (int i = 0; i < matrix.length; i++) {
 			int j;
 			boolean flag = true;
-			MachineTuple temp;
+			MachineObject temp;
 			while (flag) {
 				flag= false;
 				for( j=0;  j < matrix.length -1;  j++ ) {
@@ -46,43 +46,5 @@ public class AdjacencyMatrix {
 				} 
 			} 
 		} 
-	}
-
-	public void printMatrix() {  // debugging method
-		System.out.print("        C0 ");
-		for (int i = 1; i < matrix.length; i++) {
-			System.out.print("             C" + i);
-			if (i < 10) {
-				System.out.print(" ");
-			}
-		}
-		System.out.print("\n\n");
-		for (int i = 0; i < matrix.length; i++) {
-			System.out.print("C" + i + "     ");
-			if (i < 10) {
-				System.out.print(" ");
-			}
-			for (int j = 0; j < matrix.length; j++) {
-				MachineTuple m = this.getElement(i, j);
-				if (m.getName() == null) {
-					System.out.print("NO_EDGE         ");
-				} else {
-					System.out.print(m.getName() + ":" + m.getCost() + " ");
-				}
-				if (m.getName()!=null) {
-					System.out.print("      ");
-					if (j < matrix.length -1 && this.getElement(i, j+1).getName() == null) {
-						System.out.print("");
-					}
-				}
-				if (m.getName() != null && (Integer.parseInt( m.getName().substring(1) ) ) < 10) {
-					System.out.print(" ");
-				}
-				if (m.getName() != null && (Integer.parseInt( m.getName().substring(1) ) ) < 100) {
-					System.out.print(" ");
-				}
-			}
-			System.out.println();
-		}
 	}
 }

@@ -9,15 +9,6 @@ import java.util.Collections;
 
 public class Main {
 
-	public static void printArrayList(ArrayList<String []> a) {	//debugging method
-		int lineNumber = 1;
-		for (String [] line : a) {
-			for (int i = 0; i < 4; i++)
-				System.out.println("This is element " + i + ": " + line[i] + " of line " + lineNumber);
-			lineNumber++;
-		}
-	}
-
 	private static void parseArguments(String[] args) {
 		if (args.length != 1) {
 			System.out.println("Usage: Main <Input_file>");
@@ -40,21 +31,20 @@ public class Main {
 			/* If a machine performs the same transformation of another
 			 * it is added only if it is cheaper than the current one. */
 			if (cost < matrix.getElement(row, col).getCost() ) {
-				matrix.setElement(row, col, new MachineTuple(items [0], cost, row, col));
+				matrix.setElement(row, col, new MachineObject(items [0], cost, row, col));
 			}
 		}
 		return matrix;
 	}
 
 	/* Recursive function acting greedy to calculate all the possible Hamiltonian circuits and finding the cheapest once. */
-	public static ArrayList<MachineTuple> getCheapestMachines(AdjacencyMatrix matrix, ArrayList<MachineTuple> cheapestMachines, 
+	public static ArrayList<MachineObject> getCheapestMachines(AdjacencyMatrix matrix, ArrayList<MachineObject> cheapestMachines, 
 			int numberOfCompounds, int row, int startingRow, int recursionDepth, ArrayList<Integer> visitedRows) {
 		// Exit condition: an Hamiltonian circuit has been found.
 		if (recursionDepth == numberOfCompounds) {
 			for (int i = 0; i < numberOfCompounds; i++) {
 				if (matrix.getElement(row, i).getCol() == startingRow && matrix.getElement(row, i).getName() != null) {
 					cheapestMachines.add(matrix.getElement(row, i));
-					System.out.println("This is the last machine added to close the circuit: " + matrix.getElement(row, i).getName());
 					return cheapestMachines;
 				}
 			}
@@ -63,19 +53,17 @@ public class Main {
 		/* If the recursion sub-tree of the current node has not yield to a result it is 
 		 * calculated the subtree of the cheapest next link (machine).*/
 		for (int i = 0; i < numberOfCompounds + 1; i++) {
-			MachineTuple element = matrix.getElement(row, i);
+			MachineObject element = matrix.getElement(row, i);
 			if (element.getName() == null) {
 				return cheapestMachines;
 			}
 			if (! visitedRows.contains(element.getCol())) {
 				visitedRows.add(row);
 				cheapestMachines.add(element);
-				System.out.println("This is the machine added: "+ element.getName());
 				cheapestMachines = getCheapestMachines(matrix, cheapestMachines, numberOfCompounds, element.getCol(), startingRow, ++recursionDepth, visitedRows);
 				if (cheapestMachines.size() == (numberOfCompounds + 1) ) {
 					break;
 				}
-				System.out.println("This is the machine removed: " + element.getName());
 				visitedRows.remove(visitedRows.size() - 1);
 				cheapestMachines.remove(cheapestMachines.size() - 1);
 				--recursionDepth;
@@ -86,8 +74,8 @@ public class Main {
 
 	/* This function gets the shortest Hamiltonian circuit containing all the compounds: 
 	 * equivalent to say the less expensive set of machines that can transform each given compound to another. */
-	public static ArrayList<MachineTuple> getCheapestMachines(int numberOfCompounds, AdjacencyMatrix matrix) {
-		ArrayList<MachineTuple> cheapestMachines = new ArrayList<MachineTuple> ();
+	public static ArrayList<MachineObject> getCheapestMachines(int numberOfCompounds, AdjacencyMatrix matrix) {
+		ArrayList<MachineObject> cheapestMachines = new ArrayList<MachineObject> ();
 		ArrayList<Integer> visitedNodes = new ArrayList<Integer> ();
 		for (int i = 0; i < numberOfCompounds + 1; i++) {
 			cheapestMachines = getCheapestMachines(matrix, cheapestMachines, numberOfCompounds, i, i, 0, visitedNodes);
@@ -98,8 +86,8 @@ public class Main {
 		return cheapestMachines;
 	}
 	
-	public static void printResult(ArrayList<MachineTuple> result) {
-		MachineTuple element;
+	public static void printResult(ArrayList<MachineObject> result) {
+		MachineObject element;
 		int totalPrice = 0;
 		ArrayList<Integer> machineNumbers = new ArrayList<Integer> ();
 		// The total cost of the machines is calculated plus the machines numbers are extracted.
@@ -139,10 +127,8 @@ public class Main {
 			inputLines.add(items);
 		}
 		AdjacencyMatrix matrix = buildAdjacencyMatrix(inputLines, numberOfCompounds);
-		matrix.printMatrix(); // to remove
 		matrix.orderMatrix();
-		matrix.printMatrix(); // to remove
-		ArrayList<MachineTuple> result = getCheapestMachines(numberOfCompounds, matrix);
+		ArrayList<MachineObject> result = getCheapestMachines(numberOfCompounds, matrix);
 		if (result.size() < numberOfCompounds + 1) {
 			System.out.println("No Hamiltonian circuit exist hence there is no possible result.");
 			System.exit(1);

@@ -5,19 +5,19 @@ package challenge;
  * one compound to another. In the directed graph where the compounds
  * are the nodes the machine tuples represents the directed edges between 
  * them. */
-public class MachineTuple {
+public class MachineObject {
 
 	private String name;
 	private int cost, row, col;
 
-	public MachineTuple(String n, int c, int row, int col) {
+	public MachineObject(String n, int c, int row, int col) {
 		name = n;
 		cost = c;
 		this.row = row;
 		this.col = col;
 	}
 
-	public MachineTuple() {
+	public MachineObject() {
 		this(null , Integer.MAX_VALUE, 0, 0);
 	}
 
