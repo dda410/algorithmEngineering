@@ -1,2 +1,2 @@
 #! /bin/bash
-zip submission.zip *.java run.sh prepare.sh
+zip submission.zip *.java *.pdf run.sh prepare.sh
